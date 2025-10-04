@@ -3,8 +3,8 @@ package com.shrishti.arrays;
 public class OneDimArray {
 
 	public static void main(String[] args) {
-		int x = 10;
-		int y;
+		// int x = 10;
+		// int y;
 		// local variables should be initialized before use
 		// System.out.println(x + y);
 
