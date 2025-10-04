@@ -4,10 +4,17 @@ public class Armstrong {
 
 	public static void main(String[] args) {
 		int num = 153; // is an Armstrong number? ✅
-//		int num = 9474;		// is an Armstrong number? ✅
-//		int num = 123;		// is an Armstrong number? ❌
+//		int num = 9474; // is an Armstrong number? ✅
+//		int num = 123; // is an Armstrong number? ❌
+		System.out.println("Number: " + num);
+
 		Armstrong obj = new Armstrong();
-		System.out.println(obj.isArmstrong(num));
+
+		if (obj.isArmstrong(num)) {
+			System.out.println("Number " + num + " is an Armstrong number!");
+		} else {
+			System.out.println("Number " + num + " is not an Armstrong number!");
+		}
 	}
 
 	private boolean isArmstrong(int num) {
