@@ -4,6 +4,10 @@ public class AcBus extends Bus {
 
 	private boolean wifiAvailable;
 
+	private static final double WIFI_CHARGE = 50.0;
+	private static final double SEATER_MULTIPLIER = 1.25;
+	private static final double SLEEPER_MULTIPLIER = 1.35;
+
 	public AcBus(Route route, int totalSeats, int availableSeats, double baseFarePerKm, boolean sleeper,
 			boolean wifiAvailable) {
 		super(route, totalSeats, availableSeats, baseFarePerKm, sleeper);
@@ -17,10 +21,10 @@ public class AcBus extends Bus {
 
 	@Override
 	public double calculateFare() {
-		double multiplier = isSleeper() ? 1.35 : 1.25;
+		double multiplier = isSleeper() ? SLEEPER_MULTIPLIER : SEATER_MULTIPLIER;
 		double fare = getBaseFarePerKm() * getRoute().getDistanceKm() * multiplier;
 		if (wifiAvailable) {
-			fare += 50.0;
+			fare += WIFI_CHARGE;
 		}
 		return fare;
 	}
