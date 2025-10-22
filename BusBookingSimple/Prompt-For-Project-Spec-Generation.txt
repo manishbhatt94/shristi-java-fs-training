@@ -1,0 +1,10 @@
+I need help to design and refine the problem statement for a learning assignment for OOPs concepts in Java so I can practice what I have learnt so far in Java. I will define a loose problem statement for a real world application that I want to code as a simple console app. I want you to refine the requirements to be very clear and also very simple and very limited in scope so that the focus is on learning the concepts of Java & OOPs and not on creating a complex production grade robust app.
+Make the problem and every little requirement so simple and clear that is should take no more than 2 hours at max for implementing this with the knowledge I know so far (mentioned below).
+
+I'm currently re-learning core Java from scratch after not using it for 9 years, only working with frontend web development.
+
+Topics I have covered that I want to practice: Variables, data types, control flow, decision making, looping, arrays, arraylists, switch, passing command line arguments, taking input using scanner, using Eclipse IDE for core java, making classes & packages, methods, constructors, this keyword, super keyword, constructor calling, instance variables, class variables & methods, inheritance, overriding methods, overloading methods, abstract classes & methods, implementing abstract method in concrete child classes.
+
+I have not yet covered these topics & beyond: Interfaces, Java 8+ syntax, lambdas, streams, design patterns, exception handling, etc.
+
+Loose problem statement: Write a simple console app for an "Online Bus Ticket Booking System" like in India we have a platform called RedBus. Refine the basic entities and their methods. Talk about what data needs to be stored already when user request a bus ticket from X city to Y city. I want to skip databases, and store everything in memory in simple arrays or lists or similar. Also talk about the program flow from main method.
