@@ -2,6 +2,7 @@ package com.funcinter.quest6;
 
 import java.util.Arrays;
 
+@FunctionalInterface
 public interface ICourses {
 
 	String[] getCourses(String type);
