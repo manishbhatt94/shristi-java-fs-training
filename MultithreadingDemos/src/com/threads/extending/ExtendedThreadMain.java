@@ -2,9 +2,18 @@ package com.threads.extending;
 
 class Child extends Thread {
 
+	String name;
+
+	public Child(String name, int priority) {
+		super(name);
+		this.name = name;
+		this.setPriority(priority);
+		this.start();
+	}
+
 	@Override
 	public void run() {
-		System.out.println(Thread.currentThread().getName());
+		System.out.println("Current thread: " + name);
 		System.out.println("In run method");
 	}
 }
@@ -12,19 +21,8 @@ class Child extends Thread {
 public class ExtendedThreadMain {
 
 	public static void main(String[] args) {
-		Child t1 = new Child();
-		t1.setName("Thread-1");
-		t1.setPriority(Thread.MAX_PRIORITY - 1);
-		t1.start();
-
-		Child t2 = new Child();
-		t2.setName("Thread-2");
-		t2.setPriority(Thread.MAX_PRIORITY - 1);
-		t2.start();
-
-		Child t3 = new Child();
-		t3.setName("Thread-3");
-		t3.setPriority(Thread.MAX_PRIORITY - 1);
-		t3.start();
+		Child t1 = new Child("Thread-1", Thread.MAX_PRIORITY - 1);
+		Child t2 = new Child("Thread-2", Thread.MAX_PRIORITY - 1);
+		Child t3 = new Child("Thread-3", Thread.MAX_PRIORITY - 1);
 	}
 }
