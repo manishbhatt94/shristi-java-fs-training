@@ -3,7 +3,7 @@ package com.bookapp.main;
 import java.util.Scanner;
 
 import com.bookapp.exception.BookNotFoundException;
-import com.bookapp.service.BookServiceImpl;
+import com.bookapp.service.BookServiceStreamsImpl;
 import com.bookapp.service.IBookService;
 import com.bookapp.util.BookDetails;
 
@@ -82,7 +82,8 @@ public class Client {
 			System.out.println(choice.optionSubDesc);
 		}
 
-		IBookService service = new BookServiceImpl();
+		// IBookService service = new BookServiceImpl();
+		IBookService service = new BookServiceStreamsImpl();
 
 		try {
 			switch (choice) {
