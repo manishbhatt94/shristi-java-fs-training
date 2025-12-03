@@ -26,6 +26,7 @@ public class FuncObjDemo {
 
 		Function<Book, String> bookFunction = (bookObj) -> bookObj.getTitle();
 		System.out.println(bookFunction.apply(new Book("The C Programming Language", 275.0, 115, "Dennis Ritchie")));
+
 	}
 
 }

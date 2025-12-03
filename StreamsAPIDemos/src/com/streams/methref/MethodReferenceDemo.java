@@ -1,5 +1,7 @@
 package com.streams.methref;
 
+import java.util.function.Consumer;
+
 public class MethodReferenceDemo {
 
 	public static void main(String[] args) {
@@ -16,6 +18,12 @@ public class MethodReferenceDemo {
 		Operations operations = new Operations();
 		IGreeter greeter = operations::greet;
 		System.out.println(greeter.welcomeUser("batman"));
+
+		Consumer<String> consumer = str -> System.out.println(str);
+		consumer.accept("Manish");
+
+		consumer = System.out::println;
+		consumer.accept("Rashmi");
 
 	}
 
