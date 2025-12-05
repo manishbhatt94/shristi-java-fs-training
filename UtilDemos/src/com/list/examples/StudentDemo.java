@@ -1,7 +1,6 @@
 package com.list.examples;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 
 public class StudentDemo {
@@ -27,10 +26,6 @@ public class StudentDemo {
 		}
 		System.out.println();
 
-		Collections.sort(students);
-		System.out.println("Sorted by city, then name:");
-		for (Student student : students) {
-			System.out.println(student);
-		}
 	}
+
 }

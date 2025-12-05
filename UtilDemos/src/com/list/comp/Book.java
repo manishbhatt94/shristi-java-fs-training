@@ -4,14 +4,14 @@ public class Book {
 
 	private String title;
 	private double price;
-	private int bookId;
+	private Integer bookId;
 	private String author;
 
 	public Book() {
 		super();
 	}
 
-	public Book(String title, double price, int bookId, String author) {
+	public Book(String title, double price, Integer bookId, String author) {
 		super();
 		this.title = title;
 		this.price = price;
@@ -35,11 +35,11 @@ public class Book {
 		this.price = price;
 	}
 
-	public int getBookId() {
+	public Integer getBookId() {
 		return bookId;
 	}
 
-	public void setBookId(int bookId) {
+	public void setBookId(Integer bookId) {
 		this.bookId = bookId;
 	}
 

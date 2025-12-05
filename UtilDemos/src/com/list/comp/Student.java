@@ -1,6 +1,6 @@
-package com.list.examples;
+package com.list.comp;
 
-public class Student {
+public class Student implements Comparable<Student> {
 
 	private String name;
 	private int studentId;
@@ -44,6 +44,16 @@ public class Student {
 	@Override
 	public String toString() {
 		return "Student [name=" + name + ", studentId=" + studentId + ", city=" + city + "]";
+	}
+
+	@Override
+	public int compareTo(Student student1) {
+		int cityCompareVal = this.getCity().compareTo(student1.getCity());
+		if (cityCompareVal == 0) {
+			int nameCompareVal = this.getName().compareTo(student1.getName());
+			return nameCompareVal;
+		}
+		return cityCompareVal;
 	}
 
 }
