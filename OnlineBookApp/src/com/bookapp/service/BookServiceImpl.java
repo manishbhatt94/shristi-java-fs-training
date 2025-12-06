@@ -1,7 +1,10 @@
 package com.bookapp.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import com.bookapp.exception.BookNotFoundException;
 import com.bookapp.model.Book;
@@ -11,11 +14,28 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	public List<Book> getAll() {
-		return BookDetails.getBooks();
+		List<Book> matches = new ArrayList<>(BookDetails.getBooks());
+		Collections.sort(matches);
+		return matches;
+	}
+
+	@Override
+	public List<String> getAllAuthors() {
+		Set<String> authors = new TreeSet<>();
+		for (Book book : BookDetails.getBooks()) {
+			authors.add(book.getAuthor());
+		}
+		return new ArrayList<>(authors);
 	}
 
 	@Override
 	public List<Book> getByAuthorContains(String author) throws BookNotFoundException {
+		List<Book> matches = filterByAuthor(author);
+		Collections.sort(matches);
+		return matches;
+	}
+
+	private List<Book> filterByAuthor(String author) throws BookNotFoundException {
 		List<Book> matches = new ArrayList<>();
 		for (Book book : BookDetails.getBooks()) {
 			String bookAuthor = book.getAuthor().toLowerCase();
@@ -33,6 +53,12 @@ public class BookServiceImpl implements IBookService {
 
 	@Override
 	public List<Book> getByCategory(String category) throws BookNotFoundException {
+		List<Book> matches = filterByCategory(category);
+		Collections.sort(matches);
+		return matches;
+	}
+
+	private List<Book> filterByCategory(String category) throws BookNotFoundException {
 		List<Book> matches = new ArrayList<>();
 		for (Book book : BookDetails.getBooks()) {
 			if (book.getCategory().equalsIgnoreCase(category)) {
@@ -47,18 +73,19 @@ public class BookServiceImpl implements IBookService {
 	}
 
 	@Override
-	public List<Book> getByPriceLessThan(double price) throws BookNotFoundException {
-		List<Book> matches = new ArrayList<>();
+	public List<String> getByPriceLessThan(double price) throws BookNotFoundException {
+		List<String> titleMatches = new ArrayList<>();
 		for (Book book : BookDetails.getBooks()) {
 			if (book.getPrice() <= price) {
-				matches.add(book);
+				titleMatches.add(book.getTitle());
 			}
 		}
-		if (matches.isEmpty()) {
+		if (titleMatches.isEmpty()) {
 			throw new BookNotFoundException(
 					String.format("Book Not Found: Books with price up to ₹%.2f not found.", price));
 		}
-		return matches;
+		Collections.sort(titleMatches);
+		return titleMatches;
 	}
 
 	@Override
@@ -73,6 +100,7 @@ public class BookServiceImpl implements IBookService {
 			throw new BookNotFoundException(
 					String.format("Book Not Found: Books published in year: '%d' not found.", year));
 		}
+		Collections.sort(matches);
 		return matches;
 	}
 
@@ -90,6 +118,7 @@ public class BookServiceImpl implements IBookService {
 			throw new BookNotFoundException(String.format(
 					"Book Not Found: Books with author: '%s' & under category: '%s' not found.", author, category));
 		}
+		Collections.sort(matches);
 		return matches;
 	}
 
@@ -101,6 +130,21 @@ public class BookServiceImpl implements IBookService {
 			}
 		}
 		throw new BookNotFoundException(String.format("Book Not Found: Book with ID: '%d' not found.", bookId));
+	}
+
+	@Override
+	public int getCountOfBooksByAuthor(String author) throws BookNotFoundException {
+		return filterByAuthor(author).size();
+	}
+
+	@Override
+	public double getTotalPrice(String category) throws BookNotFoundException {
+		double totalPrice = 0.0;
+		for (Book book : filterByCategory(category)) {
+			totalPrice += book.getPrice();
+		}
+
+		return totalPrice;
 	}
 
 }

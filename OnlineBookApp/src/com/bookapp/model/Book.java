@@ -2,8 +2,7 @@ package com.bookapp.model;
 
 import java.time.LocalDate;
 
-// implement Comparable to sort by title
-public class Book {
+public class Book implements Comparable<Book> {
 
 	private String title;
 	private Integer bookId;
@@ -78,6 +77,11 @@ public class Book {
 	public String toString() {
 		return "Book [title=" + title + ", bookId=" + bookId + ", price=" + price + ", author=" + author + ", category="
 				+ category + ", datePublished=" + datePublished + "]";
+	}
+
+	@Override
+	public int compareTo(Book o) {
+		return title.compareTo(o.getTitle());
 	}
 
 }

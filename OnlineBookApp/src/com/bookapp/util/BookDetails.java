@@ -1,7 +1,6 @@
 package com.bookapp.util;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import com.bookapp.model.Book;
@@ -11,7 +10,7 @@ public class BookDetails {
 	public static List<Book> getBooks() {
 
 		// create a list
-		List<Book> books = Arrays.asList(
+		List<Book> books = List.of(
 				// Classics
 				new Book("To Kill a Mockingbird", 101, 499.0, "Harper Lee", "Classic", LocalDate.of(1960, 7, 11)),
 				new Book("1984", 102, 450.0, "George Orwell", "Dystopian", LocalDate.of(1949, 6, 8)),
@@ -65,10 +64,10 @@ public class BookDetails {
 		return books;
 	}
 
-	public static void printBooksList(List<Book> books) {
+	public static <T> void printEntriesList(List<T> entries) {
 		System.out.println();
-		for (Book book : books) {
-			System.out.println(book);
+		for (T entry : entries) {
+			System.out.println(entry);
 		}
 		System.out.println();
 	}
