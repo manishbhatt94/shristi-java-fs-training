@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.bookapp.exception.BookNotFoundException;
-import com.bookapp.service.BookServiceImpl;
+import com.bookapp.service.BookServiceStreamsImpl;
 import com.bookapp.service.IBookService;
 import com.bookapp.util.BookDetails;
 
@@ -46,8 +46,8 @@ public class Client {
 
 	public static void main(String[] args) {
 
-		Client client = new Client(new BookServiceImpl());
-		// Client client = new Client(new BookServiceStreamsImpl());
+		// Client client = new Client(new BookServiceImpl());
+		Client client = new Client(new BookServiceStreamsImpl());
 		client.runApp();
 	}
 

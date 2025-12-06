@@ -10,14 +10,23 @@ public class BookServiceStreamsImpl implements IBookService {
 
 	@Override
 	public List<Book> getAll() {
-		return BookDetails.getBooks();
+		return BookDetails.getBooks().stream().sorted().toList();
+	}
+
+	@Override
+	public List<String> getAllAuthors() {
+		return BookDetails.getBooks().stream().map(Book::getAuthor).distinct().sorted().toList();
 	}
 
 	@Override
 	public List<Book> getByAuthorContains(String author) throws BookNotFoundException {
+		return filterByAuthor(author).stream().sorted().toList();
+	}
+
+	private List<Book> filterByAuthor(String author) throws BookNotFoundException {
+		String queriedAuthor = author.toLowerCase();
 		List<Book> matches = BookDetails.getBooks().stream().filter(book -> {
 			String bookAuthor = book.getAuthor().toLowerCase();
-			String queriedAuthor = author.toLowerCase();
 			return bookAuthor.contains(queriedAuthor);
 		}).toList();
 		if (matches.isEmpty()) {
@@ -29,6 +38,10 @@ public class BookServiceStreamsImpl implements IBookService {
 
 	@Override
 	public List<Book> getByCategory(String category) throws BookNotFoundException {
+		return filterByCategory(category).stream().sorted().toList();
+	}
+
+	private List<Book> filterByCategory(String category) throws BookNotFoundException {
 		List<Book> matches = BookDetails.getBooks().stream()
 				.filter(book -> book.getCategory().equalsIgnoreCase(category)).toList();
 		if (matches.isEmpty()) {
@@ -39,8 +52,9 @@ public class BookServiceStreamsImpl implements IBookService {
 	}
 
 	@Override
-	public List<Book> getByPriceLessThan(double price) throws BookNotFoundException {
-		List<Book> matches = BookDetails.getBooks().stream().filter(book -> book.getPrice() <= price).toList();
+	public List<String> getByPriceLessThan(double price) throws BookNotFoundException {
+		List<String> matches = BookDetails.getBooks().stream().filter(book -> book.getPrice() <= price)
+				.map(Book::getTitle).sorted().toList();
 		if (matches.isEmpty()) {
 			throw new BookNotFoundException(
 					String.format("Book Not Found: Books with price up to ₹%.2f not found.", price));
@@ -51,7 +65,7 @@ public class BookServiceStreamsImpl implements IBookService {
 	@Override
 	public List<Book> getByDatePublished(int year) throws BookNotFoundException {
 		List<Book> matches = BookDetails.getBooks().stream().filter(book -> book.getDatePublished().getYear() == year)
-				.toList();
+				.sorted().toList();
 		if (matches.isEmpty()) {
 			throw new BookNotFoundException(
 					String.format("Book Not Found: Books published in year: '%d' not found.", year));
@@ -61,9 +75,9 @@ public class BookServiceStreamsImpl implements IBookService {
 
 	@Override
 	public List<Book> getByAuthorContainsAndCategory(String author, String category) throws BookNotFoundException {
+		String queriedAuthor = author.toLowerCase();
 		List<Book> matches = BookDetails.getBooks().stream().filter(book -> {
 			String bookAuthor = book.getAuthor().toLowerCase();
-			String queriedAuthor = author.toLowerCase();
 			return bookAuthor.contains(queriedAuthor) && book.getCategory().equalsIgnoreCase(category);
 		}).toList();
 		if (matches.isEmpty()) {
@@ -78,6 +92,16 @@ public class BookServiceStreamsImpl implements IBookService {
 		return BookDetails.getBooks().stream().filter(book -> book.getBookId() == bookId).findFirst()
 				.orElseThrow(() -> new BookNotFoundException(
 						String.format("Book Not Found: Book with ID: '%d' not found.", bookId)));
+	}
+
+	@Override
+	public int getCountOfBooksByAuthor(String author) throws BookNotFoundException {
+		return filterByAuthor(author).size();
+	}
+
+	@Override
+	public double getTotalPrice(String category) throws BookNotFoundException {
+		return filterByCategory(category).stream().mapToDouble(Book::getPrice).sum();
 	}
 
 }
