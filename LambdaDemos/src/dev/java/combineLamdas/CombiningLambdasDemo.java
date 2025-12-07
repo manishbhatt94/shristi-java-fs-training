@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 
 import dev.java.lambdasAsMethodReferences.User;
 
+// Resource link: https://dev.java/learn/lambdas/combining-chaining-composing/
+
 public class CombiningLambdasDemo {
 
 	public static void main(String[] args) {
