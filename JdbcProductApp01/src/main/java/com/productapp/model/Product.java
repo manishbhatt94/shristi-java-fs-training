@@ -4,6 +4,7 @@ public class Product {
 
 	private int productId;
 	private String productName;
+	private String brand;
 	private String category;
 	private double price;
 
@@ -11,16 +12,19 @@ public class Product {
 		super();
 	}
 
-	public Product(int productId, String productName, String category, double price) {
+	public Product(int productId, String productName, String brand, String category, double price) {
 		super();
 		this.productId = productId;
 		this.productName = productName;
+		this.brand = brand;
 		this.category = category;
 		this.price = price;
 	}
 
-	public Product(String productName, String category, double price) {
+	public Product(String productName, String brand, String category, double price) {
+		super();
 		this.productName = productName;
+		this.brand = brand;
 		this.category = category;
 		this.price = price;
 	}
@@ -41,6 +45,14 @@ public class Product {
 		this.productName = productName;
 	}
 
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -59,8 +71,8 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", productName=" + productName + ", category=" + category
-				+ ", price=" + price + "]";
+		return "Product [productId=" + productId + ", productName=" + productName + ", brand=" + brand + ", category="
+				+ category + ", price=" + price + "]";
 	}
 
 }
