@@ -6,11 +6,11 @@ import com.productapp.model.Product;
 
 public interface IProductService {
 
-	void addProduct(Product product);
+	Product addProduct(Product product);
 
-	void updateProduct(int productId);
+	boolean updateProduct(Product updatedProduct);
 
-	void deleteProduct(int productId);
+	boolean deleteProduct(int productId);
 
 	List<Product> getAll();
 

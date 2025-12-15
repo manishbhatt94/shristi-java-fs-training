@@ -6,11 +6,11 @@ import com.productapp.model.Product;
 
 public interface IProductDao {
 
-	void createProduct(Product product);
+	Product createProduct(Product product);
 
-	void updateProductById(int productId);
+	boolean updateProductById(Product updatedProduct);
 
-	void deleteProductById(int productId);
+	boolean deleteProductById(int productId);
 
 	List<Product> findAll();
 
