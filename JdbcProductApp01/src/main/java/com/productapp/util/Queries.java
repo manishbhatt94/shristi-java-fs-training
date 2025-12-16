@@ -20,41 +20,41 @@ public class Queries {
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
-			ORDER BY product_name ASC;"
+			ORDER BY product_name ASC;
 			""";
 	public static final String PRODUCT_SELECT_BY_BRAND = """
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
 			WHERE brand = ?
-			ORDER BY product_name ASC;"
+			ORDER BY product_name ASC;
 			""";
 	public static final String PRODUCT_SELECT_BY_CATEGORY = """
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
 			WHERE category = ?
-			ORDER BY product_name ASC;"
+			ORDER BY product_name ASC;
 			""";
 	public static final String PRODUCT_SELECT_BY_CATEGORY_BRAND = """
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
 			WHERE category = ? AND brand = ?
-			ORDER BY product_name ASC;"
+			ORDER BY product_name ASC;
 			""";
 	public static final String PRODUCT_SELECT_BY_CATEGORY_MAXPRICE = """
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
 			WHERE category = ? AND price <= ?
-			ORDER BY product_name ASC;"
+			ORDER BY product_name ASC;
 			""";
 	public static final String PRODUCT_SELECT_BY_ID = """
 			SELECT
 			product_id, product_name, brand, category, price
 			FROM product
-			WHERE product_id = ?;"
+			WHERE product_id = ?;
 			""";
 	public static final String PRODUCT_UPDATE_BY_ID = """
 			UPDATE product SET
