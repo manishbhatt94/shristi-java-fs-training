@@ -15,7 +15,10 @@ public class SeedProducts {
 
 	public static void seed() throws SQLException {
 		createProductTable();
-		if (getProductsCount() == 0) {
+		if (getProductsCount() != 20) {
+			System.out.println("SeedProducts - 'product' table seems to contain non-seed test data.");
+			System.out.println("SeedProducts - So, truncating & re-seeding 'product' table.");
+			truncateProductsTable();
 			insertSeedProducts();
 		}
 	}
@@ -77,10 +80,8 @@ public class SeedProducts {
 	}
 
 	private static void createProductTable() throws SQLException {
-		final String CREATE_TABLE_SQL = Queries.PRODUCT_CREATE_TABLE;
-
 		Connection connection = DBConnection.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(CREATE_TABLE_SQL);) {
+		try (PreparedStatement statement = connection.prepareStatement(Queries.PRODUCT_CREATE_TABLE);) {
 
 			boolean status = statement.execute();
 			System.out.println("SeedProducts - Created 'product' table: " + !status);
@@ -102,6 +103,14 @@ public class SeedProducts {
 		return count;
 	}
 
+	private static void truncateProductsTable() throws SQLException {
+		Connection connection = DBConnection.getConnection();
+		try (PreparedStatement statement = connection.prepareStatement(Queries.PRODUCT_TRUNCATE);) {
+			statement.executeUpdate();
+			System.out.println("SeedProducts - Truncated 'product' table");
+		}
+	}
+
 	private static void insertSeedProducts() throws SQLException {
 		List<Product> products = generateProducts();
 
@@ -112,7 +121,7 @@ public class SeedProducts {
 			try (PreparedStatement ps = connection.prepareStatement(Queries.PRODUCT_INSERT)) {
 				int count = 0;
 
-				System.out.println("Starting batch insertion of " + products.size() + " products...");
+				System.out.println("SeedProducts - Starting batch insertion of " + products.size() + " products...");
 
 				for (Product product : products) {
 					ps.setString(1, product.getProductName());
@@ -124,15 +133,15 @@ public class SeedProducts {
 					count++;
 					if (count % 50 == 0) {
 						ps.executeBatch();
-						System.out.println("Executed intermediate batch of 50 records.");
+						System.out.println("SeedProducts - Executed intermediate batch of 50 records.");
 					}
 				}
 
 				int[] results = ps.executeBatch();
 				connection.commit();
 
-				System.out.println("\nBatch insertion successful!");
-				System.out.println("Total rows inserted: " + results.length);
+				System.out.println("SeedProducts - Batch insertion successful!");
+				System.out.println("SeedProducts - Total rows inserted: " + results.length);
 			}
 		} catch (SQLException e) {
 			if (connection != null) {

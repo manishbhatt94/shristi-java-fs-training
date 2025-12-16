@@ -68,5 +68,8 @@ public class Queries {
 			DELETE FROM product
 			WHERE product_id = ?;
 			""";
+	public static final String PRODUCT_TRUNCATE = """
+			TRUNCATE TABLE product;
+			""";
 
 }
