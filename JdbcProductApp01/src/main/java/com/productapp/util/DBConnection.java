@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-	private static final String DB_CONNECTION_STR = "jdbc:mysql://localhost:3306/jfsseptjava";
+	private static final String DB_CONNECTION_STR = "jdbc:mysql://localhost:3306/jfsseptjava?rewriteBatchedStatements=true";
 	private static final String DB_USER_NAME = "root";
 	private static final String DB_USER_PWD = "manish";
 
