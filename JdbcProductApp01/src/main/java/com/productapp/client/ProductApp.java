@@ -1,9 +1,7 @@
 package com.productapp.client;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import com.productapp.model.Product;
 import com.productapp.service.IProductService;
 import com.productapp.service.ProductServiceImpl;
 import com.productapp.util.DBConnection;
@@ -19,15 +17,14 @@ public class ProductApp {
 
 	}
 
-	public void runApp() {
+	private void runApp() {
 		IProductService productService = new ProductServiceImpl();
 
-		List<Product> products = productService.getAll();
-		System.out.println("Initial Products:");
-		products.forEach(System.out::println);
+		AppDemonstration appDemo = new AppDemonstration(productService);
+		appDemo.runDemo();
 	}
 
-	public void shutdownApp() {
+	private void shutdownApp() {
 		System.out.println("App flow finished.");
 		try {
 			DBConnection.closeConnection();
