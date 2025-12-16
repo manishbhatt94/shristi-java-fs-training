@@ -116,6 +116,8 @@ public class SeedProducts {
 
 		Connection connection = DBConnection.getConnection();
 		try {
+			// Disable auto commit mode - to manually manage transaction for batch insert of
+			// seed data
 			connection.setAutoCommit(false);
 
 			try (PreparedStatement ps = connection.prepareStatement(Queries.PRODUCT_INSERT)) {
@@ -139,6 +141,8 @@ public class SeedProducts {
 
 				int[] results = ps.executeBatch();
 				connection.commit();
+				// Re-enable auto commit mode, after work of batched seeding is done
+				connection.setAutoCommit(true); // restore default mode
 
 				System.out.println("SeedProducts - Batch insertion successful!");
 				System.out.println("SeedProducts - Total rows inserted: " + results.length);
@@ -146,6 +150,8 @@ public class SeedProducts {
 		} catch (SQLException e) {
 			if (connection != null) {
 				connection.rollback();
+				// Re-enable auto commit mode, after batched seeding failure
+				connection.setAutoCommit(true); // restore default mode
 			}
 			throw e;
 		}
