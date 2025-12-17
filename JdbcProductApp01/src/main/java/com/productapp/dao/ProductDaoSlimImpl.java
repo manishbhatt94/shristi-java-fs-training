@@ -15,7 +15,8 @@ public class ProductDaoSlimImpl implements IProductDao {
 
 	static {
 		try {
-			SeedProducts.seed();
+			// SeedProducts.seed();
+			SeedProductsSlim.seed();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			final String message = "Seed Error - Failed to create 'product' table / Seed data in it.";
