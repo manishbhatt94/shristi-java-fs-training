@@ -15,18 +15,6 @@ import com.productapp.util.Queries;
 
 public class ProductDaoImpl implements IProductDao {
 
-	static {
-		try {
-			SeedProducts.seed();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			final String message = "Seed Error - Failed to create 'product' table / Seed data in it.";
-			System.err.println(message);
-			// Wrap and rethrow as a RuntimeException (or ExceptionInInitializerError)
-			throw new DataAccessException(message, e);
-		}
-	}
-
 	@Override
 	public Product createProduct(Product product) {
 		int createdProductId = -1;

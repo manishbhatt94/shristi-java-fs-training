@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.productapp.exceptions.DataAccessException;
 import com.productapp.model.Product;
 import com.productapp.util.DBConnection;
 import com.productapp.util.JdbcExecutor;
@@ -15,13 +16,19 @@ public class SeedProductsSlim {
 	private static final int SEED_DATA_COUNT = 20;
 	private static final int INSERT_BATCH_SIZE = 50;
 
-	public static void seed() throws SQLException {
-		createProductTable();
-		if (getProductsCount() != SEED_DATA_COUNT) {
-			System.out.println("SeedProducts - 'product' table seems to contain non-seed test data.");
-			System.out.println("SeedProducts - So, truncating & re-seeding 'product' table.");
-			truncateProductsTable();
-			insertSeedProducts();
+	public static void seed() throws DataAccessException {
+		try {
+			createProductTable();
+			if (getProductsCount() != SEED_DATA_COUNT) {
+				System.out.println("SeedProducts - 'product' table seems to contain non-seed test data.");
+				System.out.println("SeedProducts - So, truncating & re-seeding 'product' table.");
+				truncateProductsTable();
+				insertSeedProducts();
+			}
+		} catch (SQLException e) {
+			final String message = "Seed Error - Failed to create 'product' table / Seed data in it.";
+			System.err.println(message);
+			throw new DataAccessException(message, e);
 		}
 	}
 

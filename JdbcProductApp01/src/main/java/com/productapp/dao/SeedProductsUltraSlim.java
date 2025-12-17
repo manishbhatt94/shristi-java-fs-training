@@ -1,8 +1,6 @@
 package com.productapp.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,21 +9,29 @@ import com.productapp.exceptions.DataAccessException;
 import com.productapp.model.Product;
 import com.productapp.util.DBConnection;
 import com.productapp.util.Queries;
+import com.productapp.util.TableSeeder;
 
-public class SeedProducts {
+public class SeedProductsUltraSlim {
+
+	private static final int SEED_DATA_COUNT = 20;
 
 	public static void seed() throws DataAccessException {
 		try {
-			createProductTable();
-			if (getProductsCount() != 20) {
-				System.out.println("SeedProducts - 'product' table seems to contain non-seed test data.");
-				System.out.println("SeedProducts - So, truncating & re-seeding 'product' table.");
-				truncateProductsTable();
-				insertSeedProducts();
-			}
+			System.out.println("Seeding 'product' table - Starting");
+
+			Connection connection = DBConnection.getConnection();
+			TableSeeder<Product> seeder = new TableSeeder<>(connection);
+
+			List<Product> products = generateProducts();
+
+			seeder.seed(Queries.PRODUCT_CREATE_TABLE, Queries.PRODUCT_TRUNCATE, Queries.PRODUCT_COUNT,
+					Queries.PRODUCT_INSERT, SEED_DATA_COUNT, products,
+					p -> new Object[] { p.getProductName(), p.getBrand(), p.getCategory(), p.getPrice() });
+
+			System.out.println("Seeding 'product' table - Finished");
+
 		} catch (SQLException e) {
 			final String message = "Seed Error - Failed to create 'product' table / Seed data in it.";
-			System.err.println(message);
 			throw new DataAccessException(message, e);
 		}
 	}
@@ -84,84 +90,6 @@ public class SeedProducts {
 		products.add(new Product(names[19], brands.get(4).get(1), categories[4], prices[19])); // Bike Helmet
 
 		return products;
-	}
-
-	private static void createProductTable() throws SQLException {
-		Connection connection = DBConnection.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(Queries.PRODUCT_CREATE_TABLE);) {
-
-			boolean status = statement.execute();
-			System.out.println("SeedProducts - Created 'product' table: " + !status);
-		}
-	}
-
-	public static int getProductsCount() throws SQLException {
-		Connection connection = DBConnection.getConnection();
-		int count = 0;
-
-		try (PreparedStatement statement = connection.prepareStatement(Queries.PRODUCT_COUNT);
-				ResultSet rs = statement.executeQuery();) {
-
-			if (rs.next()) {
-				count = rs.getInt(1);
-			}
-		}
-
-		return count;
-	}
-
-	private static void truncateProductsTable() throws SQLException {
-		Connection connection = DBConnection.getConnection();
-		try (PreparedStatement statement = connection.prepareStatement(Queries.PRODUCT_TRUNCATE);) {
-			statement.executeUpdate();
-			System.out.println("SeedProducts - Truncated 'product' table");
-		}
-	}
-
-	private static void insertSeedProducts() throws SQLException {
-		List<Product> products = generateProducts();
-
-		Connection connection = DBConnection.getConnection();
-		try {
-			// Disable auto commit mode - to manually manage transaction for batch insert of
-			// seed data
-			connection.setAutoCommit(false);
-
-			try (PreparedStatement ps = connection.prepareStatement(Queries.PRODUCT_INSERT)) {
-				int count = 0;
-
-				System.out.println("SeedProducts - Starting batch insertion of " + products.size() + " products...");
-
-				for (Product product : products) {
-					ps.setString(1, product.getProductName());
-					ps.setString(2, product.getBrand());
-					ps.setString(3, product.getCategory());
-					ps.setDouble(4, product.getPrice());
-					ps.addBatch();
-
-					count++;
-					if (count % 50 == 0) {
-						ps.executeBatch();
-						System.out.println("SeedProducts - Executed intermediate batch of 50 records.");
-					}
-				}
-
-				int[] results = ps.executeBatch();
-				connection.commit();
-				// Re-enable auto commit mode, after work of batched seeding is done
-				connection.setAutoCommit(true); // restore default mode
-
-				System.out.println("SeedProducts - Batch insertion successful!");
-				System.out.println("SeedProducts - Total rows inserted: " + results.length);
-			}
-		} catch (SQLException e) {
-			if (connection != null) {
-				connection.rollback();
-				// Re-enable auto commit mode, after batched seeding failure
-				connection.setAutoCommit(true); // restore default mode
-			}
-			throw e;
-		}
 	}
 
 }

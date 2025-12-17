@@ -13,18 +13,6 @@ import com.productapp.util.Queries;
 
 public class ProductDaoSlimImpl implements IProductDao {
 
-	static {
-		try {
-			// SeedProducts.seed();
-			SeedProductsSlim.seed();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			final String message = "Seed Error - Failed to create 'product' table / Seed data in it.";
-			System.err.println(message);
-			throw new DataAccessException(message, e);
-		}
-	}
-
 	// Common mapper for Product
 	private final JdbcExecutor.ResultSetMapper<Product> productMapper = rs -> {
 		return new Product(rs.getInt("product_id"), rs.getString("product_name"), rs.getString("brand"),
