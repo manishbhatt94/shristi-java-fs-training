@@ -3,7 +3,7 @@ package com.productapp.service;
 import java.util.List;
 
 import com.productapp.dao.IProductDao;
-import com.productapp.dao.ProductDaoImpl;
+import com.productapp.dao.ProductDaoSlimImpl;
 import com.productapp.exceptions.NoProductsAvailableException;
 import com.productapp.exceptions.ProductNotFoundException;
 import com.productapp.exceptions.ProductsNotFoundForCriteriaException;
@@ -11,7 +11,8 @@ import com.productapp.model.Product;
 
 public class ProductServiceImpl implements IProductService {
 
-	private IProductDao productDao = new ProductDaoImpl();
+	// private IProductDao productDao = new ProductDaoImpl();
+	private IProductDao productDao = new ProductDaoSlimImpl();
 
 	@Override
 	public Product addProduct(Product product) {
